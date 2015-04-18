@@ -162,6 +162,16 @@ mgTask.define('taskA', function(task) {
             callback(null, 'A', 'B', 'C');
         });
     }(task.async));
+    // 这里也可以使用task.done保存多个数据
+    /*
+    (function(callback) {
+        setTimeout(function() {
+            callback(null, 'A', 'B', 'C');
+        });
+    }(function(err, a, b, c) {
+        task.done(a, b, c);
+    }));
+     */
 });
 mgTask.define('taskB', ['taskA'], function(task, data) {
     console.log(data['taskA'][0]); // 'A'

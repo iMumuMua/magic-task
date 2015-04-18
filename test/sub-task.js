@@ -62,4 +62,21 @@ describe('sub task', function() {
         mgTask.run('task', done);
     });
 
+    it('should save multi data with task.done', function(done) {
+        var mgTask = magicTask();
+        mgTask.define('async', function(task) {
+            helper.asyncMultiResFunc(10, false, function(err, a, b, c) {
+                task.done(a, b, c);
+            });
+        });
+        mgTask.define('res', ['async'], function(task, data) {
+            data['async'].length.should.equal(3);
+            data['async'][0].should.equal(10);
+            data['async'][1].should.equal(10 * 2);
+            data['async'][2].should.equal(10 * 3);
+            task.done();
+        })
+        mgTask.run('res', done);
+    });
+
 });
