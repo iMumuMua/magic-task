@@ -1,4 +1,7 @@
 # magic-task
+[![Build Status](https://travis-ci.org/iMumuMua/magic-task.svg?branch=master)](https://travis-ci.org/iMumuMua/magic-task)
+[![Coverage Status](https://coveralls.io/repos/iMumuMua/magic-task/badge.svg)](https://coveralls.io/r/iMumuMua/magic-task)
+
 magic-task是一个用于解决“回调地狱”的库。magic-task把异步过程抽象成一个个任务，使得逻辑清晰，易于维护；而且它的每一个任务都只会成功或失败一次；可以在一个函数中进行统一的错误处理。
 
 ## 简单示例
