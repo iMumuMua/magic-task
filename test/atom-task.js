@@ -6,12 +6,14 @@ describe('atom task', function() {
     it('should run sync task', function(done) {
         var mgTask = magicTask();
         var step = false;
-        mgTask.define('sync', function() {
+        mgTask.define('sync', function(task) {
             step = true;
+            task.done('sync data');
         });
-        mgTask.run(function(err) {
+        mgTask.run('sync', function(err, errTaskName, data) {
+            data['sync'].should.equal('sync data');
             step.should.be.true;
-            done(err);
+            done();
         });
     });
 
@@ -21,60 +23,28 @@ describe('atom task', function() {
         mgTask.define('async', function(task) {
             setTimeout(function() {
                 step = true;
-                task.done();
+                task.done('async data');
             });
         });
-        mgTask.run(function(err) {
+        mgTask.run('async', function(err, errTaskName, data) {
+            data['async'].should.equal('async data');
             step.should.be.true;
-            done(err);
+            done();
         });
     });
 
-    it('should run promise task', function(done) {
+    it('should run promise task and get data', function(done) {
         var mgTask = magicTask();
-        var data = 'pr';
-        mgTask.define('promise', function(task) {
-            return helper.createPromise(data);
+        mgTask.define('promise', function() {
+            return helper.createPromise('pr');
         });
-        mgTask.define('then', ['promise'] function(task, data) {
+        mgTask.define('then', ['promise'], function(task, data) {
             data['promise'].should.equal('pr');
+            task.done('then data');
         });
-        mgTask.run(done);
-    });
-
-    it('should run sub task', function(done) {
-        var mgTask = magicTask();
-        var steps = [false, false];
-        mgTask.define('step0', function() {
-            steps[0] = true;
-        });
-        mgTask.define('step1', ['step0'], function() {
-            steps[1] = true;
-        });
-        mgTask.run(function(err) {
-            steps[0].should.be.true;
-            steps[1].should.be.true;
-            done(err);
-        });
-    });
-
-    it('should run multi sub task', function(done) {
-        var mgTask = magicTask();
-        var steps = {};
-        mgTask.define('subA', function() {
-            steps['subA'] = true;
-        });
-        mgTask.define('subB', function() {
-            steps['subB'] = true;
-        });
-        mgTask.define('task', ['subA', 'subB'], function() {
-            steps['task'] = true;
-        });
-        mgTask.run(function(err) {
-            steps['subA'].should.be.true;
-            steps['subB'].should.be.true;
-            steps['task'].should.be.true;
-            done(err);
+        mgTask.run('then', function(err, errTaskName, data) {
+            data['then'].should.equal('then data');
+            done();
         });
     });
 
