@@ -29,6 +29,18 @@ describe('error handle', function() {
         });
     });
 
+    it('should catch async task error with task.async', function(done) {
+        var mgTask = magicTask();
+        mgTask.define('async', function(task) {
+            helper.asyncFunc(10, true, task.async);
+        });
+        mgTask.run('async', function(err, errTaskName) {
+            err.message.should.equal('async err');
+            errTaskName.should.equal('async');
+            done();
+        });
+    });
+
     it('should catch promise task error', function(done) {
         var mgTask = magicTask();
         mgTask.define('promise', function() {

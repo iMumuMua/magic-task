@@ -48,4 +48,32 @@ describe('atom task', function() {
         });
     });
 
+    it('should throw error when arguments not correct', function() {
+        var mgTask = magicTask();
+        var errorCount = 0;
+
+        try {
+            mgTask.define('sync');
+        }
+        catch (e) {
+            errorCount++;
+        }
+
+        try {
+            mgTask.define('sync', 'test');
+        }
+        catch (e) {
+            errorCount++;
+        }
+
+        try {
+            mgTask.define('sync', 'test', function() {});
+        }
+        catch (e) {
+            errorCount++;
+        }
+
+        errorCount.should.equal(3);
+    });
+
 });
