@@ -3,6 +3,19 @@ var helper = require('./helper/helper-func');
 
 describe('error handle', function() {
 
+    it('should catch error throw by task', function(done) {
+        var mgTask = magicTask();
+        mgTask.define('task', function(task) {
+            throw new Error('task err');
+            task.done();
+        });
+        mgTask.run('task', function(err, errTaskName) {
+            err.message.should.equal('task err');
+            errTaskName.should.equal('task');
+            done();
+        });
+    });
+
     it('should catch sync task error', function(done) {
         var mgTask = magicTask();
         mgTask.define('sync', function(task) {

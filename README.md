@@ -105,7 +105,7 @@ mgTask.define('res', ['childA', 'childB'], function(task, data) {
 });
 ```
 
-## 执行任务
+## 执行任务&&错误处理
 使用`MagicTask.prototype.define`方法定义的任务只是保存定义到该实例对象的任务列表中，并不会执行，需要执行某个任务时，需要调用`MagicTask.prototype.run`方法。
 ```javascript
 var magicTask = require('magic-task');
@@ -113,6 +113,7 @@ var mgTask = magicTask();
 /* 定义一些任务... */
 // run方法的第一个参数为任务名称，第二个参数为执行完成的回调函数，无论成功或失败都会被调用且仅被调用一次
 mgTask.run('someTask', function(err, errTaskName, data) {
+    // 在这个函数中可以进行统一的错误处理
     if (err) {
         console.log(err, errTaskName); // errTaskName是失败的任务的任务名
     }
@@ -138,6 +139,17 @@ mgTask.define('res', ['task'], function(task, data) {
 });
 mgTask.run('res', function(err, errTaskName, data) {
     // 在这里仍可以处理所有错误，但是如果'someTask'任务失败，errTaskName为'someTask'，而不是'task'
+});
+```
+任务函数中抛出的异常也可以捕获
+```javascript
+var magicTask = require('magic-task');
+var mgTask = magicTask();
+mgTask.define('task', function() {
+    throw new Error('task err');
+});
+mgTask.run('task', function(err, errTaskName, data) {
+    err.message.should.equal('task err');
 });
 ```
 
