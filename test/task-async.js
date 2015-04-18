@@ -31,7 +31,7 @@ describe('task.async', function() {
     it('should get multi data', function(done) {
         var mgTask = magicTask();
         mgTask.define('async', function(task) {
-            helper.asyncMultiFunc(10, false, task.async);
+            helper.asyncMultiResFunc(10, false, task.async);
         });
         mgTask.define('res', ['async'], function(task, data) {
             data['async'].length.should.equal(3);
