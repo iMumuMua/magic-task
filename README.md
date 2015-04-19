@@ -131,7 +131,7 @@ mgTask.define('task', function(task, data) {
         mgTask.run('someTask', task.nested);
     }
     else {
-        mgTask.run('anotherTask', task.nested);
+        mgTask.run('anotherTask', task.nested, data); // 可将数据传到该任务中
     }
 });
 mgTask.define('res', ['task'], function(task, data) {

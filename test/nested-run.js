@@ -32,4 +32,21 @@ describe('nested run', function() {
         });
     });
 
+    it('should receive parent task data if init', function(done) {
+        var mgTask = magicTask();
+        mgTask.define('child', function(task, data) {
+            data['pre'].should.equal('pre data');
+            task.done();
+        });
+        mgTask.define('pre', function(task) {
+            task.done('pre data');
+        });
+        mgTask.define('parent', ['pre'], function(task, data) {
+            mgTask.run('child', task.nested, data);
+        });
+        mgTask.run('parent', function(err, errTaskName, data) {
+            done();
+        });
+    });
+
 });
