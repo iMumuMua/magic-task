@@ -1,7 +1,7 @@
 var magicTask = require('../lib/magic-task');
 var helper = require('./helper/helper');
 
-describe('atom task', function() {
+describe.skip('atom task', function() {
 
     describe('async task', function() {
 
