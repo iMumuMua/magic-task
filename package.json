@@ -2,7 +2,7 @@
   "name": "magic-task",
   "description": "JavaScript task runner",
   "main": "lib/magic-task.js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "iMumuMua <imumu@foxmail.com>",
   "keywords": [
     "magic",
@@ -15,7 +15,6 @@
   "devDependencies": {
     "mocha": "~2.2.1",
     "should": "~5.2.0",
-    "q": "~1.2.0",
     "istanbul": "~0.3.8"
   },
   "engines": {
