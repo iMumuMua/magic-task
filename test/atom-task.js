@@ -57,6 +57,7 @@ describe('atom task', function() {
                 asyncFunc('async data', task.async);
             }
             magicTask.run(asyncTask).then(function(data) {
+                should(true).be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -96,6 +97,7 @@ describe('atom task', function() {
                 task.promise = helper.createPromise('promise data', true);
             }
             magicTask.run(promiseTask).then(function(data) {
+                should(true).be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('promise error');
@@ -136,9 +138,23 @@ describe('atom task', function() {
                 });
             }
             magicTask.run(customTask).then(function(data) {
+                should(true).be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
+                done();
+            });
+        });
+
+        it('should catch error when the task throw error', function(done) {
+            function customTask(task) {
+                throw new Error('throw error');
+            }
+            magicTask.run(customTask).then(function(data) {
+                should(true).be.false;
+                done();
+            }, function(err) {
+                err.message.should.equal('throw error');
                 done();
             });
         });
