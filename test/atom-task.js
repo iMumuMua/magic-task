@@ -1,7 +1,7 @@
 var magicTask = require('../lib/magic-task');
 var helper = require('./helper/helper');
 
-describe.skip('atom task', function() {
+describe('atom task', function() {
 
     describe('async task', function() {
 
@@ -95,7 +95,7 @@ describe.skip('atom task', function() {
             function promiseTask(task) {
                 task.promise = helper.createPromise('promise data', true);
             }
-            magicTask.run(asyncTask).then(function(data) {
+            magicTask.run(promiseTask).then(function(data) {
                 done();
             }, function(err) {
                 err.message.should.equal('promise error');
@@ -135,7 +135,7 @@ describe.skip('atom task', function() {
                     }
                 });
             }
-            magicTask.run(asyncTask).then(function(data) {
+            magicTask.run(customTask).then(function(data) {
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
