@@ -1,6 +1,6 @@
 // test helper
 
-exports.createAsyncFunc = function(isMultiArgs, isFail) {
+exports.createAsyncFunc = function(isMultiArgs, isFail, delay) {
     if (isMultiArgs === undefined || isMultiArgs === null) {
         isMultiArgs = false;
     }
@@ -9,27 +9,31 @@ exports.createAsyncFunc = function(isMultiArgs, isFail) {
     }
     if (isMultiArgs) {
         return function(dataA, dataB, dataC, callback) {
-            if (isFail) {
-                callback(new Error('async error'));
-            }
-            else {
-                callback(null, dataA, dataB, dataC);
-            }
+            setTimeout(function() {
+                if (isFail) {
+                    callback(new Error('async error'));
+                }
+                else {
+                    callback(null, dataA, dataB, dataC);
+                }
+            }, delay);
         };
     }
     else {
         return function(data, callback) {
-            if (isFail) {
-                callback(new Error('async error'));
-            }
-            else {
-                callback(null, data);
-            }
+            setTimeout(function() {
+                if (isFail) {
+                    callback(new Error('async error'));
+                }
+                else {
+                    callback(null, data);
+                }
+            }, delay);
         };
     }
 }
 
-exports.createPromise = function(data, isFail) {
+exports.createPromise = function(data, isFail, delay) {
     var promise = new Promise(function(resolve, reject) {
         setTimeout(function() {
             if (isFail) {
@@ -38,7 +42,7 @@ exports.createPromise = function(data, isFail) {
             else {
                 resolve(data);
             }
-        });
+        }, delay);
     });
     return promise;
 };
