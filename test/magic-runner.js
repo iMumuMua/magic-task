@@ -13,7 +13,7 @@ var createAsyncTask = function(callback, delay) {
         asyncFunc(data, task.async);
         task.done = function(data) {
             if (callback) {
-                callback();
+                callback(data);
             }
             return data;
         };
@@ -26,7 +26,7 @@ var createAsyncFailTask = function(callback) {
         asyncFunc(data, task.async);
         task.done = function(data) {
             if (callback) {
-                callback();
+                callback(data);
             }
             return data;
         };
@@ -38,7 +38,7 @@ var createPromiseTask = function(callback, delay) {
         task.promise = helper.createPromise(data, false, delay);
         task.done = function(data) {
             if (callback) {
-                callback();
+                callback(data);
             }
             return data;
         }
@@ -50,7 +50,7 @@ var createPromiseFailTask = function(callback) {
         task.promise = helper.createPromise(data, true);
         task.done = function(data) {
             if (callback) {
-                callback();
+                callback(data);
             }
             return data;
         }
@@ -66,10 +66,12 @@ describe('magic runner', function() {
     describe('waterfall', function() {
         it('should run task one by one', function(done) {
             var step = {};
-            var asyncTask = createAsyncTask(function() {
+            var asyncTask = createAsyncTask(function(data) {
+                data.should.equal(now);
                 step.async = true;
             });
-            var promiseTask = createPromiseTask(function() {
+            var promiseTask = createPromiseTask(function(data) {
+                data.should.equal(now);
                 step.async.should.be.true;
                 step.promise = true;
             });
@@ -83,10 +85,12 @@ describe('magic runner', function() {
 
         it('should catch error when a task fail', function(done) {
             var step = {};
-            var asyncTask = createAsyncFailTask(function() {
+            var asyncTask = createAsyncFailTask(function(data) {
+                data.should.equal(now);
                 step.async = true;
             });
-            var promiseTask = createPromiseTask(function() {
+            var promiseTask = createPromiseTask(function(data) {
+                data.should.equal(now);
                 step.async.should.be.true;
                 step.promise = true;
             });
@@ -196,12 +200,16 @@ describe('magic runner', function() {
                     task.done(i < count);
                 });
             };
-            var loopTask = function(task) {
+            var loopTask = function(task, data) {
+                if (i > 0) {
+                    data.should.equal('loopTaskData')
+                }
                 var func = helper.createAsyncFunc();
                 func(null, task.async);
                 task.done = function(data) {
                     firstRun.should.equal('cond');
                     i++;
+                    return 'loopTaskData';
                 };
             };
             magicTask.whilst(condTask, loopTask).then(function() {
@@ -270,12 +278,16 @@ describe('magic runner', function() {
                     task.done(i < count);
                 });
             };
-            var loopTask = function(task) {
+            var loopTask = function(task, data) {
+                if (i > 0) {
+                    data.should.equal('loopTaskData')
+                }
                 var func = helper.createAsyncFunc();
                 func(null, task.async);
                 task.done = function(data) {
                     firstRun = 'do';
                     i++;
+                    return 'loopTaskData';
                 };
             };
             magicTask.doWhilst(loopTask, condTask).then(function() {
