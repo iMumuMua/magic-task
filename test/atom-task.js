@@ -32,6 +32,26 @@ describe('atom task', function() {
             }, done);
         });
 
+        it('should get data when the async callback doesn\'t has err arg', function(done) {
+            function asyncTask(task) {
+                var asyncFunc = function(callback) {
+                    setTimeout(function() {
+                        callback(true);
+                    });
+                };
+                asyncFunc(task.async);
+                task.done = function(res) {
+                    res.should.be.true;
+                    res = 'asyncData';
+                    return res;
+                };
+            }
+            magicTask.run(asyncTask).then(function(data) {
+                data.should.equal('asyncData');
+                done();
+            }, done);
+        });
+
         it('should get multi data when the async callback provide multi data', function(done) {
             function asyncTask(task) {
                 var asyncFunc = helper.createAsyncFunc(true);
