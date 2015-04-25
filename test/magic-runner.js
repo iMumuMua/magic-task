@@ -185,7 +185,7 @@ describe('magic runner', function() {
         });
     });
 
-    describe.skip('whilst', function() {
+    describe('whilst', function() {
         it('should run 3 times', function(done) {
             var count = 3;
             var i = 0;
@@ -243,7 +243,7 @@ describe('magic runner', function() {
                 });
             };
             var loopTask = function(task) {
-                var func = helper.createAsyncFailFunc();
+                var func = helper.createAsyncFunc(false, true);
                 func(null, task.async);
                 task.done = function(data) {
                     i++;
@@ -259,7 +259,7 @@ describe('magic runner', function() {
         });
     });
 
-    describe.skip('doWhilst', function() {
+    describe('doWhilst', function() {
         it('should run 3 times', function(done) {
             var count = 3;
             var i = 0;
@@ -317,7 +317,7 @@ describe('magic runner', function() {
                 });
             };
             var loopTask = function(task) {
-                var func = helper.createAsyncFailFunc();
+                var func = helper.createAsyncFunc(false, true);
                 func(null, task.async);
                 task.done = function(data) {
                     i++;
