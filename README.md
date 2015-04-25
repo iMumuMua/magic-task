@@ -56,7 +56,7 @@ var createUserIfNot = function(task, data) {
 };
 var postComment = function(task, data) {
     var comment = new Comment({
-        poster: user
+        poster: data
     });
     comment.save(task.async);
 };
