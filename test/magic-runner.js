@@ -135,15 +135,14 @@ describe('magic runner', function() {
         });
     });
 
-    describe.skip('each', function() {
+    describe('each', function() {
         it('should iterate array item one by one', function(done) {
             var array = ['a', 'b', 'c'];
             magicTask.each(array, createAsyncTask()).then(function(data) {
                 data.should.be.an.array;
                 data.length.should.equal(array.length);
                 for (var i = 0, len = data.length; i < len; i++) {
-                    data[i].index.should.equal(i);
-                    data[i].item.should.equal(array[i]);
+                    data[i].should.equal(array[i]);
                 }
                 done();
             }, done);
@@ -161,15 +160,14 @@ describe('magic runner', function() {
         });
     });
 
-    describe.skip('map', function() {
+    describe('map', function() {
         it('should iterate array item parallelly', function(done) {
             var array = ['a', 'b', 'c'];
             magicTask.map(array, createAsyncTask(function() {}, 10)).then(function(data) {
                 data.should.be.an.array;
                 data.length.should.equal(array.length);
                 for (var i = 0, len = data.length; i < len; i++) {
-                    data[i].index.should.equal(i);
-                    data[i].item.should.equal(array[i]);
+                    data[i].should.equal(array[i]);
                 }
                 done();
             }, done);
