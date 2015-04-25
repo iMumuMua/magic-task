@@ -57,7 +57,7 @@ var createPromiseFailTask = function(callback) {
     };
 };
 
-describe.skip('magic runner', function() {
+describe('magic runner', function() {
 
     describe('run', function() {
         it('has test fully in atom task test', function() {});
@@ -100,7 +100,7 @@ describe.skip('magic runner', function() {
         });
     });
 
-    describe('parallel', function() {
+    describe.skip('parallel', function() {
         it('should run task parallelly', function(done) {
             var step = {};
             var asyncTask = createAsyncTask(function() {
@@ -135,7 +135,7 @@ describe.skip('magic runner', function() {
         });
     });
 
-    describe('each', function() {
+    describe.skip('each', function() {
         it('should iterate array item one by one', function(done) {
             var array = ['a', 'b', 'c'];
             magicTask.each(array, createAsyncTask()).then(function(data) {
@@ -161,7 +161,7 @@ describe.skip('magic runner', function() {
         });
     });
 
-    describe('map', function() {
+    describe.skip('map', function() {
         it('should iterate array item parallelly', function(done) {
             var array = ['a', 'b', 'c'];
             magicTask.map(array, createAsyncTask(function() {}, 10)).then(function(data) {
@@ -187,7 +187,7 @@ describe.skip('magic runner', function() {
         });
     });
 
-    describe('whilst', function() {
+    describe.skip('whilst', function() {
         it('should run 3 times', function(done) {
             var count = 3;
             var i = 0;
@@ -261,7 +261,7 @@ describe.skip('magic runner', function() {
         });
     });
 
-    describe('doWhilst', function() {
+    describe.skip('doWhilst', function() {
         it('should run 3 times', function(done) {
             var count = 3;
             var i = 0;
