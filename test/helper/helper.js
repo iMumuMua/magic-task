@@ -7,6 +7,7 @@ exports.createAsyncFunc = function(isMultiArgs, isFail, delay) {
     if (isFail === undefined || isFail === null) {
         isFail = false;
     }
+    delay = delay || 0;
     if (isMultiArgs) {
         return function(dataA, dataB, dataC, callback) {
             setTimeout(function() {

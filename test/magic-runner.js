@@ -9,7 +9,7 @@ var startTask = function(task) {
 
 var createAsyncTask = function(callback, delay) {
     return function(task, data) {
-        var asyncFunc = helper.createAsyncFunc();
+        var asyncFunc = helper.createAsyncFunc(false, false, delay);
         asyncFunc(data, task.async);
         task.done = function(data) {
             if (callback) {
@@ -35,7 +35,7 @@ var createAsyncFailTask = function(callback) {
 
 var createPromiseTask = function(callback, delay) {
     return function(task, data) {
-        task.promise = helper.createPromise(data);
+        task.promise = helper.createPromise(data, false, delay);
         task.done = function(data) {
             if (callback) {
                 callback();
@@ -100,7 +100,7 @@ describe('magic runner', function() {
         });
     });
 
-    describe.skip('parallel', function() {
+    describe('parallel', function() {
         it('should run task parallelly', function(done) {
             var step = {};
             var asyncTask = createAsyncTask(function() {
