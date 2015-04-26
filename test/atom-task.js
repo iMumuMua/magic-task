@@ -32,6 +32,17 @@ describe('atom task', function() {
             }, done);
         });
 
+        it('should send custom data', function(done) {
+            function asyncTask(task) {
+                var asyncFunc = helper.createAsyncFunc();
+                asyncFunc('async data', task.send('custom data'));
+            }
+            magicTask.run(asyncTask).then(function(data) {
+                data.should.equal('custom data');
+                done();
+            }, done);
+        });
+
         it('should get data when the async callback doesn\'t has err arg', function(done) {
             function asyncTask(task) {
                 var asyncFunc = function(callback) {

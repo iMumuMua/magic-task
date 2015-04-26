@@ -81,7 +81,7 @@ function(task, data) {
 }
 ```
 一共有3种任务类型：
-### 快捷的异步任务
+### 便捷的异步任务
 定义方式如下：
 ```javascript
 function asyncTask(task, data) {
@@ -102,8 +102,16 @@ function asyncTask(task, data) {
     };
 }
 ```
+magic-task还提供另一个便捷的方法`task.send(data)`：
+```javascript
+function asyncTask(task) {
+    // 这个方法默认asyncFunction的回调函数第一个参数为err，忽略其它参数
+    // 如果没有错误，那么会将字符串'custom data'作为任务执行成功后的结果
+    asyncFunction(dataArgs, task.send('custom data'));
+}
+```
 
-### promise任务
+### Promise任务
 定义方法与上述的异步任务有些相似：
 ```javascript
 function promiseTask(task, data) {
