@@ -181,7 +181,7 @@ magicTask.run(task).then(function(res) {}).then(null, function(err) {});
 
 <a name="waterfall"></a>
 ### waterfall(taskList)
-顺序执行一系列任务，每个任务的返回结果为下一个任务`function(task, data) {}`中的参数`data`。
+顺序执行一系列任务，每个任务的返回结果为下一个任务`function(task, data) {}`中的参数`data`。如果taskList中的某个任务的返回结果为magicTask.end，则waterfall直接成功结束，不再执行其后面的任务。
 
 __示例__
 
@@ -197,6 +197,15 @@ var task3 = function(task, data) {
 };
 magicTask.waterfall([task1, task2, task3]).then(function(res) {
     console.log(data); // taskData_3
+}).then(null, function(err) {});
+
+var task4 = function(task, data) { task.done(magicTask.end); };
+var task5 = function(task, data) {
+    // 不会执行该任务了
+    task.done('taskData_5');
+};
+magicTask.waterfall([task4, task5]).then(function(res) {
+    // 会执行这里的代码
 }).then(null, function(err) {});
 ```
 

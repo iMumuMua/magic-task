@@ -83,6 +83,23 @@ describe('magic runner', function() {
             }, done);
         });
 
+        it('should end when task return magicTask.end', function(done) {
+            function asyncTask(task) {
+                var asyncFunc = helper.createAsyncFunc();
+                asyncFunc('async data', task.async);
+                task.done = function(data) {
+                    return magicTask.end;
+                }
+            }
+            function customTask(task) {
+                (true).should.be.false;
+                task.done();
+            }
+            magicTask.waterfall([asyncTask, customTask]).then(function() {
+                done();
+            }, done);
+        });
+
         it('should catch error when a task fail', function(done) {
             var step = {};
             var asyncTask = createAsyncFailTask(function(data) {
@@ -95,7 +112,7 @@ describe('magic runner', function() {
                 step.promise = true;
             });
             magicTask.waterfall([startTask, asyncTask, promiseTask]).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -130,7 +147,7 @@ describe('magic runner', function() {
                 step.promise = true;
             });
             magicTask.parallel([asyncTask, promiseTask]).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -155,7 +172,7 @@ describe('magic runner', function() {
         it('should catch error when a task fail', function(done) {
             var array = ['a', 'b', 'c'];
             magicTask.each(array, createAsyncFailTask()).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -180,7 +197,7 @@ describe('magic runner', function() {
         it('should catch error when a task fail', function(done) {
             var array = ['a', 'b', 'c'];
             magicTask.map(array, createAsyncFailTask()).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -234,7 +251,7 @@ describe('magic runner', function() {
                 };
             };
             magicTask.whilst(condTask, loopTask).then(function() {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('cond error');
@@ -258,7 +275,7 @@ describe('magic runner', function() {
                 };
             };
             magicTask.whilst(condTask, loopTask).then(function() {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -312,7 +329,7 @@ describe('magic runner', function() {
                 };
             };
             magicTask.doWhilst(loopTask, condTask).then(function() {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('cond error');
@@ -336,7 +353,7 @@ describe('magic runner', function() {
                 };
             };
             magicTask.doWhilst(loopTask, condTask).then(function() {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');

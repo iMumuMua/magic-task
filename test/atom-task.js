@@ -43,6 +43,20 @@ describe('atom task', function() {
             }, done);
         });
 
+        it('should not send custom data when error', function(done) {
+            function asyncTask(task) {
+                var asyncFunc = helper.createAsyncFunc(false, true);
+                asyncFunc('async data', task.send('custom data'));
+            }
+            magicTask.run(asyncTask).then(function(data) {
+                (true).should.be.false;
+                done();
+            }, function(err) {
+                err.message.should.equal('async error');
+                done();
+            });
+        });
+
         it('should get data when the async callback doesn\'t has err arg', function(done) {
             function asyncTask(task) {
                 var asyncFunc = function(callback) {
@@ -88,7 +102,7 @@ describe('atom task', function() {
                 asyncFunc('async data', task.async);
             }
             magicTask.run(asyncTask).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -128,7 +142,7 @@ describe('atom task', function() {
                 task.promise = helper.createPromise('promise data', true);
             }
             magicTask.run(promiseTask).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('promise error');
@@ -169,7 +183,7 @@ describe('atom task', function() {
                 });
             }
             magicTask.run(customTask).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('async error');
@@ -182,7 +196,7 @@ describe('atom task', function() {
                 throw new Error('throw error');
             }
             magicTask.run(customTask).then(function(data) {
-                should(true).be.false;
+                (true).should.be.false;
                 done();
             }, function(err) {
                 err.message.should.equal('throw error');
