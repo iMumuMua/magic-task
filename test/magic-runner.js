@@ -60,7 +60,16 @@ var createPromiseFailTask = function(callback) {
 describe('magic runner', function() {
 
     describe('run', function() {
-        it('has test fully in atom task test', function() {});
+        it('should work', function(done) {
+            var asyncTask = function(task, data) {
+                var asyncFunc = helper.createAsyncFunc();
+                asyncFunc(data, task.async);
+            };
+            magicTask.run(asyncTask, 'input').then(function(data) {
+                data.should.equal('input');
+                done();
+            }, done);
+        });
     });
 
     describe('waterfall', function() {

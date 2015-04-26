@@ -170,13 +170,19 @@ function errorTask(task, data) {
 这些方法都会返回一个Promise，如果没有特别说明，成功执行后获得的数据为最后一个任务返回的数据。
 
 <a name="run"></a>
-### run(task)
-执行单个任务。
+### run(task, data)
+执行单个任务，data为传递给这个任务的数据。
 
 __示例__
 
 ```javascript
-magicTask.run(task).then(function(res) {}).then(null, function(err) {});
+var asyncTask = function(task, data) {
+    task.done(data);
+};
+magicTask.run(asyncTask, 'input').then(function(data) {
+    data.should.equal('input');
+    done();
+}, done);
 ```
 
 <a name="waterfall"></a>
