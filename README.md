@@ -44,14 +44,7 @@ var createUserIfNot = function(task, data) {
     }
     else {
         var user = new User();
-        user.save(function(err) {
-            if (err) {
-                task.fail(err);
-            }
-            else {
-                task.done(user);
-            }
-        });
+        user.save(task.send(user));
     }
 };
 var postComment = function(task, data) {
