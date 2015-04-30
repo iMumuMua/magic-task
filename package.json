@@ -1,14 +1,14 @@
 {
   "name": "magic-task",
-  "description": "JavaScript task runner",
+  "description": "JavaScript async programming helper",
   "main": "lib/magic-task.js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "iMumuMua <imumu@foxmail.com>",
   "keywords": [
     "magic",
     "async",
     "task",
-    "magic"
+    "Promise"
   ],
   "repository": "iMumuMua/magic-task",
   "license": "MIT",

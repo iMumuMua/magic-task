@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/iMumuMua/magic-task.svg?branch=master)](https://travis-ci.org/iMumuMua/magic-task)
 [![Coverage Status](https://coveralls.io/repos/iMumuMua/magic-task/badge.svg)](https://coveralls.io/r/iMumuMua/magic-task)
 
-magic-task可以让JavaScript异步编程更加简单、优雅、安全，它将异步任务promise化，可以做统一的错误处理，并且提供常用的流程控制，使得代码更易于组织。
+magic-task可以让JavaScript异步编程更加简单、优雅、安全，它将异步过程抽象成一个个任务，并且使用Promise确保安全可靠，可以做统一的错误处理，还提供了常用的流程控制，使得代码更易于组织。
 
 ## 执行环境
 * node.js - v0.12.x
@@ -160,7 +160,8 @@ function errorTask(task, data) {
 * [`whilst`](#whilst)
 * [`doWhilst`](#doWhilst)
 
-这些方法都会返回一个Promise，如果没有特别说明，成功执行后获得的数据为最后一个任务返回的数据。
+这些方法都会返回一个Promise，这样可以组合使用，应对更复杂的异步流程。
+如果没有特别说明，成功执行后获得的数据为最后一个任务返回的数据。
 
 <a name="run"></a>
 ### run(task, data)
